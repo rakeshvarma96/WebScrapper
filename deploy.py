@@ -8,7 +8,7 @@ from flask import (
     render_template
 )
 
-app = Flask(__name__, template_folder='pages')
+app = Flask(__name__, template_folder='util/pages')
 
 
 def prettydate(d):
@@ -94,4 +94,4 @@ def get_issues():
 
 @app.route("/")
 def home():
-    return render_template('/util/pages/home.html')
+    return render_template('home.html')
