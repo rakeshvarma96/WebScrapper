@@ -10,11 +10,9 @@ from flask import (
 
 app = Flask(__name__, template_folder='pages')
 
-
-def prettydate(d):
-    diff = datetime.datetime.utcnow() - d
-    s = diff.seconds
-    # print(diff.days)
+#finding relative time of the issue
+def date_diff(issue_date):
+    diff = datetime.datetime.utcnow() - issue_date
     if diff.days <= 1 and diff.days >= 0:
         return 1
     elif diff.days > 1 and diff.days < 7:
@@ -22,7 +20,14 @@ def prettydate(d):
     else:
         return 3
 
+#formats the response
+def html_formatter(one_day, seven_day, total):
+    resp_template = ''
+    with open('pages/response_template.txt', 'r') as file:
+        resp_template = file.read().replace('\n', '')
+    return resp_template.format(one_day, seven_day, total - (one_day + seven_day), total))
 
+#counts the total open issues
 def get_total_requests(soup):
     for x in soup.findAll('a', attrs={'class': 'js-selected-navigation-item selected reponav-item'}):
         for y in x.findAll('span', attrs={'class': 'Counter'}):
@@ -62,7 +67,7 @@ def get_issues():
                     for b in a.findAll('relative-time'):
                         d = dateutil.parser.parse(b['datetime'])
                         d = d.replace(tzinfo=None)
-                        days_old = prettydate(d)
+                        days_old = date_diff(d)
                         if days_old == 1:
                             one_day_old += 1
                         elif days_old == 2:
@@ -72,24 +77,10 @@ def get_issues():
                             break
                     if done:
                         break
-                        # print(b['datetime'])
                 if done:
                     break
 
-        output = '''<table border="1">
-      <tr>
-        <th>Less than 24 Hours old</th>
-        <th>Less than 7 days and more than 24 hours old</th>
-        <th>More than 7 days old</th>
-        <th>Total Open Issues</th>
-      </tr>
-      <tr>
-        <td>{0}</td>
-        <td>{1}</td>
-        <td>{2}</td>
-        <td>{3}</td>
-      </tr>
-    </table>'''.format(one_day_old, seven_days_old, total_requests - (one_day_old + seven_days_old), total_requests)
+        output = html_formatter(one_day_old, seven_days_old, total_requests)
         return output
     except Exception:
         return 'Invalid GitHub Repository URL'
