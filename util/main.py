@@ -25,7 +25,7 @@ def html_formatter(one_day, seven_day, total):
     resp_template = ''
     with open('pages/response_template.txt', 'r') as file:
         resp_template = file.read().replace('\n', '')
-    return resp_template.format(one_day, seven_day, total - (one_day + seven_day), total))
+    return resp_template.format(one_day, seven_day, total - (one_day + seven_day), total)
 
 #counts the total open issues
 def get_total_requests(soup):
