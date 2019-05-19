@@ -94,4 +94,4 @@ def get_issues():
 
 @app.route("/")
 def home():
-    return render_template('util/pages/home.html')
+    return render_template('/util/pages/home.html')
