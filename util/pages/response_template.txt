@@ -1,0 +1,14 @@
+<table border="1">
+      <tr>
+        <th>Less than 24 Hours old</th>
+        <th>Less than 7 days and more than 24 hours old</th>
+        <th>More than 7 days old</th>
+        <th>Total Open Issues</th>
+      </tr>
+      <tr>
+        <td>{0}</td>
+        <td>{1}</td>
+        <td>{2}</td>
+        <td>{3}</td>
+      </tr>
+</table>
