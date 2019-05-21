@@ -38,7 +38,7 @@ def get_total_requests(soup):
 @app.route("/issues")
 def get_issues():
     try:
-        URL = request.args['GitURL'] + '/pulls'
+        URL = request.args['GitURL'] + '/issues'
         r = requests.get(URL)
 
         soup = BeautifulSoup(r.content, 'html5lib')
